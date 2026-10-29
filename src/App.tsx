@@ -11,6 +11,7 @@ const dailyTasks: Task[] = [
   { id: 'enercon', title: 'Enercon', group: 'DAILY CHECK' },
   { id: '5s', title: '5S', group: 'DAILY CHECK' },
   { id: 'run-rate', title: 'Run Rate', group: 'DAILY CHECK' },
+  { id: 'non-pm-checklist', title: 'NON-PM Checklist', detail: 'Review today’s scheduled non-PM maintenance checks', group: 'DAILY CHECK' },
 ]
 const processTasks: Record<'Die attach' | 'MCA', Task[]> = {
   'Die attach': [
@@ -35,7 +36,7 @@ const resources = [
   { name: '5S', description: 'Zone 30 BLDG2 Checklist of 5S Practices', url: 'https://allegromicro.sharepoint.com/sites/AMPIIntranet/SitePages/5s-Dashboard.aspx?web=1' },
   { name: 'WBCC', description: 'OPENS WIREBOND CC APP', url: 'https://ampiign/data/perspective/client/WirebondCC/' },
   { name: 'DACC', description: 'OPENS DIE ATTACH CC APP', url: 'https://ampiign/data/perspective/client/DieAttachCC/' },
-  { name: 'WB/DA Cleaning', description: 'OPENS DIE ATTACH CC APP', url: 'http://ampissrs/Reports_PROD/report/Reports/Camstar/Production/Subscriptions/MaintenanceReport/PROD_DAILY_MAINTENANCE_SCHEDULE' },
+  { name: 'NON-PM Checklist', description: 'Daily non-PM maintenance schedule', url: 'http://ampissrs/Reports_PROD/report/Reports/Camstar/Production/Subscriptions/MaintenanceReport/PROD_DAILY_MAINTENANCE_SCHEDULE' },
 ]
 const wirebondTasksStorageKey = 'tech-essentials-wirebond-custom-tasks'
 const wirebondNotesStorageKey = 'tech-essentials-wirebond-important-notes'
@@ -174,8 +175,6 @@ function App() {
     }
   }, [today])
 
-  const done = dailyTasks.filter((task) => completed.includes(task.id)).length
-  const progress = Math.round((done / dailyTasks.length) * 100)
   const tasks = activeSection === 'Dashboard'
     ? dailyTasks
     : activeSection === 'Wirebond'
@@ -294,12 +293,6 @@ function App() {
           <div className="breadcrumb"><span>TECH ESSENTIALS</span><span className="crumb-slash">/</span>{activeSection.toUpperCase()}</div>
           <div className="today-label"><span className="calendar-mark" aria-hidden="true">▦</span>{today.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </header>
-        {activeSection !== 'Dashboard' && <section className="welcome-band">
-          <div className="welcome-copy"><div className="eyebrow"><span className="eyebrow-line" /> YOUR SHIFT, IN FOCUS</div><h1>Make today <span>count.</span></h1><p>Everything you need to stay ready, precise, and on track.</p></div>
-          <div className="progress-panel"><div className="progress-ring" style={{ '--progress': `${progress}%` } as React.CSSProperties}><div className="progress-inner"><strong>{progress}<small>%</small></strong><span>COMPLETE</span></div></div><div className="progress-caption"><strong>{done} of {dailyTasks.length}</strong><span>daily checks done</span></div><div className="progress-ornament" aria-hidden="true">{String(done).padStart(2, '0')}<i> / </i>{String(dailyTasks.length).padStart(2, '0')}</div></div>
-          <div className="band-stamp" aria-hidden="true"><span>TE</span><small>FIELD<br />NOTES</small></div>
-        </section>}
-
         <div className="content-wrap">
           {activeSection !== 'Wirebond' && <div className="section-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>{sectionTitle}</h2><p>{sectionDescription}</p></div><button className="text-action" type="button" onClick={clearCompleted} disabled={!tasks.some((task) => completed.includes(task.id))}><span aria-hidden="true">↺</span> Reset checks</button></div>}
           {activeSection === 'Wirebond' ? <div className="wirebond-cards">
