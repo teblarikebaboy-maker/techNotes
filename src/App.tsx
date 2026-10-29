@@ -39,6 +39,12 @@ const resources = [
 ]
 const wirebondTasksStorageKey = 'tech-essentials-wirebond-custom-tasks'
 const wirebondNotesStorageKey = 'tech-essentials-wirebond-important-notes'
+const folderDatabaseName = 'tech-essentials-settings'
+const folderObjectStoreName = 'settings'
+const databaseFolderSettingKey = 'database-folder'
+type DirectoryPickerWindow = Window & {
+  showDirectoryPicker?: (options?: { mode?: 'read' }) => Promise<FileSystemDirectoryHandle>
+}
 
 function dateKey(date: Date) {
   return `tech-essentials-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -80,6 +86,54 @@ function loadSavedSentences(storageKey: string, idPrefix: string) {
   }
 }
 
+function openFolderDatabase() {
+  return new Promise<IDBDatabase>((resolve, reject) => {
+    const request = indexedDB.open(folderDatabaseName, 1)
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore(folderObjectStoreName)
+    }
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => reject(request.error ?? new Error('Could not open folder settings storage.'))
+  })
+}
+
+async function loadDatabaseFolder() {
+  const database = await openFolderDatabase()
+  return new Promise<FileSystemDirectoryHandle | null>((resolve, reject) => {
+    const request = database.transaction(folderObjectStoreName, 'readonly')
+      .objectStore(folderObjectStoreName)
+      .get(databaseFolderSettingKey)
+    request.onsuccess = () => {
+      database.close()
+      resolve((request.result as FileSystemDirectoryHandle | undefined) ?? null)
+    }
+    request.onerror = () => {
+      database.close()
+      reject(request.error ?? new Error('Could not load the saved folder.'))
+    }
+  })
+}
+
+async function saveDatabaseFolder(folder: FileSystemDirectoryHandle) {
+  const database = await openFolderDatabase()
+  return new Promise<void>((resolve, reject) => {
+    const transaction = database.transaction(folderObjectStoreName, 'readwrite')
+    transaction.objectStore(folderObjectStoreName).put(folder, databaseFolderSettingKey)
+    transaction.oncomplete = () => {
+      database.close()
+      resolve()
+    }
+    transaction.onerror = () => {
+      database.close()
+      reject(transaction.error ?? new Error('Could not save the selected folder.'))
+    }
+    transaction.onabort = () => {
+      database.close()
+      reject(transaction.error ?? new Error('Saving the selected folder was cancelled.'))
+    }
+  })
+}
+
 function App() {
   const [today, setToday] = useState(() => new Date())
   const [activeSection, setActiveSection] = useState<Section>('Dashboard')
@@ -90,6 +144,16 @@ function App() {
   const [newNoteTitle, setNewNoteTitle] = useState('')
   const [taskMessage, setTaskMessage] = useState('')
   const [noteMessage, setNoteMessage] = useState('')
+  const [databaseFolderName, setDatabaseFolderName] = useState('')
+  const [folderMessage, setFolderMessage] = useState('')
+
+  useEffect(() => {
+    loadDatabaseFolder()
+      .then((folder) => {
+        if (folder) setDatabaseFolderName(folder.name)
+      })
+      .catch(() => setFolderMessage('Could not load the saved folder selection.'))
+  }, [])
 
   useEffect(() => {
     function refreshDate() {
@@ -194,6 +258,24 @@ function App() {
     }
   }
 
+  async function chooseDatabaseFolder() {
+    const pickerWindow = window as DirectoryPickerWindow
+    if (!pickerWindow.showDirectoryPicker) {
+      setFolderMessage('Folder selection is not supported in this browser.')
+      return
+    }
+
+    try {
+      const folder = await pickerWindow.showDirectoryPicker({ mode: 'read' })
+      await saveDatabaseFolder(folder)
+      setDatabaseFolderName(folder.name)
+      setFolderMessage('Folder selection remembered in this browser.')
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return
+      setFolderMessage('Could not remember this folder. Please try again.')
+    }
+  }
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -222,7 +304,8 @@ function App() {
           {activeSection !== 'Wirebond' && <div className="section-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>{sectionTitle}</h2><p>{sectionDescription}</p></div><button className="text-action" type="button" onClick={clearCompleted} disabled={!tasks.some((task) => completed.includes(task.id))}><span aria-hidden="true">↺</span> Reset checks</button></div>}
           {activeSection === 'Wirebond' ? <div className="wirebond-cards">
             <section className="wirebond-poc" aria-label="WPT POC sentences">
-            <header className="wirebond-card-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>WPT POC</h2><p>Add sentences and copy them when needed.</p></div><span className="wirebond-card-count">{String(customWirebondTasks.length).padStart(2, '0')} SENTENCES</span></header>
+            <header className="wirebond-card-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>WPT POC</h2><p>Add sentences and copy them when needed.</p></div><div className="wirebond-header-actions"><span className="wirebond-card-count">{String(customWirebondTasks.length).padStart(2, '0')} SENTENCES</span><button className="choose-folder" type="button" onClick={() => void chooseDatabaseFolder()}>Choose database folder</button></div></header>
+            <p className="folder-selection" aria-live="polite">{databaseFolderName ? `Selected folder: ${databaseFolderName}` : 'No database folder selected.'} {folderMessage}</p>
             <form className="add-task-form" onSubmit={addWirebondTask}><label className="sr-only" htmlFor="wirebond-task">Add a sentence</label><input id="wirebond-task" value={newTaskTitle} onChange={(event) => setNewTaskTitle(event.target.value)} placeholder="Enter a sentence" /><button type="submit" disabled={!newTaskTitle.trim()}>Add</button></form>
             <p className="task-message" aria-live="polite">{taskMessage}</p>
             {customWirebondTasks.length > 0 ? <ul className="wirebond-sentence-list">{customWirebondTasks.map((task) => <li className="wirebond-sentence" key={task.id}><span>{task.title}</span><button className="copy-task" type="button" onClick={() => void copyWirebondTask(task)} aria-label={`Copy ${task.title}`}>Copy</button></li>)}</ul> : <p className="wirebond-empty">Your added sentences will appear here.</p>}

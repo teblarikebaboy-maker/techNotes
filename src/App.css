@@ -83,7 +83,11 @@
 .wirebond-card-heading .section-kicker { margin-bottom: 6px; }
 .wirebond-card-heading h2 { margin: 0; color: var(--ink); font-size: 24px; }
 .wirebond-card-heading p { margin-top: 5px; color: var(--muted); font-size: 14px; }
+.wirebond-header-actions { display: flex; flex: 0 0 auto; flex-direction: column; align-items: flex-end; gap: 8px; }
 .wirebond-card-count { flex: 0 0 auto; color: var(--muted); font: 11px var(--mono); letter-spacing: .5px; }
+.choose-folder { min-height: 44px; padding: 8px 12px; border: 1px solid var(--green); border-radius: 3px; color: var(--green); background: white; cursor: pointer; font-size: 14px; font-weight: 600; }
+.choose-folder:hover { color: white; background: var(--green); }
+.folder-selection { padding: 8px 18px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
 .wirebond-sentence-list { display: grid; gap: 12px; margin: 0; padding: 16px 18px 20px; list-style: none; }
 .wirebond-sentence { display: flex; min-height: 76px; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 5px; color: var(--ink); background: #f7fafc; box-shadow: 0 2px 6px rgb(24 51 74 / 7%); font-size: 16px; line-height: 1.45; overflow-wrap: anywhere; }
 .wirebond-empty { padding: 0 18px 16px; color: var(--muted); font-size: 15px; }
@@ -306,6 +310,7 @@
 @media (max-width: 760px) {
   .wirebond-cards { grid-template-columns: 1fr; }
   .wirebond-card-heading { align-items: flex-start; }
+  .wirebond-header-actions { align-items: flex-end; }
   .task-row { min-height: 86px; gap: 14px; }
   .custom-check { width: 25px; height: 25px; }
   .custom-check span { font-size: 17px; }
