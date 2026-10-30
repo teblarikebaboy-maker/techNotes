@@ -239,6 +239,32 @@ function App() {
     }
   }
 
+  function removeWirebondTask(task: Task) {
+    if (!window.confirm(`Are you sure you want to remove “${task.title}”?`)) return
+
+    const next = customWirebondTasks.filter((item) => item.id !== task.id)
+    try {
+      localStorage.setItem(wirebondTasksStorageKey, JSON.stringify(next))
+      setCustomWirebondTasks(next)
+      setTaskMessage(`Removed “${task.title}”.`)
+    } catch {
+      setTaskMessage('Could not remove this item. Please try again.')
+    }
+  }
+
+  function removeImportantNote(note: Task) {
+    if (!window.confirm(`Are you sure you want to remove “${note.title}”?`)) return
+
+    const next = importantNotes.filter((item) => item.id !== note.id)
+    try {
+      localStorage.setItem(wirebondNotesStorageKey, JSON.stringify(next))
+      setImportantNotes(next)
+      setNoteMessage(`Removed “${note.title}”.`)
+    } catch {
+      setNoteMessage('Could not remove this note. Please try again.')
+    }
+  }
+
   async function copyWirebondTask(task: Task) {
     try {
       await navigator.clipboard.writeText(task.detail ? `${task.title}\n${task.detail}` : task.title)
@@ -301,13 +327,13 @@ function App() {
             <p className="folder-selection" aria-live="polite">{databaseFolderName ? `Selected folder: ${databaseFolderName}` : 'No database folder selected.'} {folderMessage}</p>
             <form className="add-task-form" onSubmit={addWirebondTask}><label className="sr-only" htmlFor="wirebond-task">Add a sentence</label><input id="wirebond-task" value={newTaskTitle} onChange={(event) => setNewTaskTitle(event.target.value)} placeholder="Enter a sentence" /><button type="submit" disabled={!newTaskTitle.trim()}>Add</button></form>
             <p className="task-message" aria-live="polite">{taskMessage}</p>
-            {customWirebondTasks.length > 0 ? <ul className="wirebond-sentence-list">{customWirebondTasks.map((task) => <li className="wirebond-sentence" key={task.id}><span>{task.title}</span><button className="copy-task" type="button" onClick={() => void copyWirebondTask(task)} aria-label={`Copy ${task.title}`}>Copy</button></li>)}</ul> : <p className="wirebond-empty">Your added sentences will appear here.</p>}
+            {customWirebondTasks.length > 0 ? <ul className="wirebond-sentence-list">{customWirebondTasks.map((task) => <li className="wirebond-sentence" key={task.id}><span>{task.title}</span><span className="sentence-actions"><button className="copy-task" type="button" onClick={() => void copyWirebondTask(task)} aria-label={`Copy ${task.title}`}><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v11A1.5 1.5 0 0 0 5.5 18H8" /></svg></button><button className="remove-task" type="button" onClick={() => removeWirebondTask(task)} aria-label={`Remove ${task.title}`}>×</button></span></li>)}</ul> : <p className="wirebond-empty">Your added sentences will appear here.</p>}
             </section>
             <section className="wirebond-poc important-notes" aria-label="Important notes">
               <header className="wirebond-card-heading"><div><div className="section-kicker">REFERENCE</div><h2>Important Notes</h2><p>Keep key reminders close at hand.</p></div><span className="wirebond-card-count">{String(importantNotes.length).padStart(2, '0')} NOTES</span></header>
               <form className="add-task-form" onSubmit={addImportantNote}><label className="sr-only" htmlFor="important-note">Add an important note</label><input id="important-note" value={newNoteTitle} onChange={(event) => setNewNoteTitle(event.target.value)} placeholder="Enter an important note" /><button type="submit" disabled={!newNoteTitle.trim()}>Add</button></form>
               <p className="task-message" aria-live="polite">{noteMessage}</p>
-              {importantNotes.length > 0 ? <ul className="wirebond-sentence-list">{importantNotes.map((note) => <li className="wirebond-sentence" key={note.id}><span>{note.title}</span><button className="copy-task" type="button" onClick={() => void copyImportantNote(note)} aria-label={`Copy ${note.title}`}>Copy</button></li>)}</ul> : <p className="wirebond-empty">Your important notes will appear here.</p>}
+              {importantNotes.length > 0 ? <ul className="wirebond-sentence-list">{importantNotes.map((note) => <li className="wirebond-sentence" key={note.id}><span>{note.title}</span><span className="sentence-actions"><button className="copy-task" type="button" onClick={() => void copyImportantNote(note)} aria-label={`Copy ${note.title}`}><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v11A1.5 1.5 0 0 0 5.5 18H8" /></svg></button><button className="remove-task" type="button" onClick={() => removeImportantNote(note)} aria-label={`Remove ${note.title}`}>×</button></span></li>)}</ul> : <p className="wirebond-empty">Your important notes will appear here.</p>}
             </section>
           </div> : <div className="workspace-grid">
             <section className="checklist" aria-label={sectionTitle}>

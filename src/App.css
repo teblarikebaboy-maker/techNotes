@@ -54,7 +54,8 @@
 .add-task-form input:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 .add-task-form button, .copy-task { min-height: 44px; padding: 8px 16px; border: 1px solid var(--green); border-radius: 3px; color: white; background: var(--green); cursor: pointer; font-size: 15px; font-weight: 600; }
 .add-task-form button:disabled { cursor: default; opacity: .5; }
-.copy-task { flex: 0 0 auto; color: var(--green); background: white; }
+.copy-task { display: grid; width: 44px; flex: 0 0 44px; place-items: center; padding: 8px; color: var(--green); background: white; }
+.copy-task svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
 .copy-task:hover { color: white; background: var(--green); }
 .task-message { min-height: 24px; padding: 4px 18px; color: var(--muted); font-size: 13px; }
 .wirebond-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 20px; }
@@ -70,6 +71,9 @@
 .folder-selection { padding: 8px 18px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
 .wirebond-sentence-list { display: grid; gap: 12px; margin: 0; padding: 16px 18px 20px; list-style: none; }
 .wirebond-sentence { display: flex; min-height: 76px; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 5px; color: var(--ink); background: #f7fafc; box-shadow: 0 2px 6px rgb(24 51 74 / 7%); font-size: 16px; line-height: 1.45; overflow-wrap: anywhere; }
+.sentence-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 6px; }
+.remove-task { display: grid; width: 44px; min-height: 44px; flex: 0 0 44px; place-items: center; padding: 0; border: 1px solid #d7a59a; border-radius: 3px; color: #a64e3c; background: white; cursor: pointer; font-size: 24px; line-height: 1; }
+.remove-task:hover { color: white; border-color: #a64e3c; background: #a64e3c; }
 .wirebond-empty { padding: 0 18px 16px; color: var(--muted); font-size: 15px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
 .dashboard-references { min-width: 0; border: 1px solid var(--line); background: var(--paper); }
@@ -158,7 +162,7 @@
   .today-label .calendar-mark { font-size: 12px; }
   .task-row { gap: 8px; padding-right: 10px; padding-left: 10px; }
   .task-label { gap: 8px; }
-  .copy-task { padding-right: 10px; padding-left: 10px; font-size: 13px; }
+  .copy-task { padding: 8px; }
   .task-copy strong { font-size: 10px; }
   .task-copy small { font-size: 8px; }
   .checklist-foot { padding: 0 9px; font-size: 6px; }
