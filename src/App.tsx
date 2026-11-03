@@ -73,7 +73,7 @@ const daReferenceCards: DaReferenceCard[] = [
     { device: '7693', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA15FHSG' },
     { device: '7697', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA162HSG' },
     { device: '9180', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA1A1HSG' },
-    { device: '1681', dieX: '60', dieY: '92', rubberTip: 'R3-32E', daCcName: 'PA0AFHSG' },
+    { device: '1681', dieX: '60', dieY: '92', rubberTip: 'R3-32E', daCcName: 'PA0AEHSG' },
     { device: '9023', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: '' },
     { device: '175021', dieX: '150.4', dieY: '65', rubberTip: 'R3-75E', daCcName: '' },
   ] },
@@ -92,7 +92,7 @@ const daReferenceCards: DaReferenceCard[] = [
     { device: '1677', dieX: '81.5', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA0ACPSL' },
     { device: '163011', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA093PSL' },
     { device: '163012', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA093PSL' },
-    { device: '901791', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108 / HTR3-74', daCcName: 'PA16DPSL', note: 'needle chuck orientation' },
+    { device: '901791', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108 / HTR3-74', daCcName: 'PA16DPSL', note: 'needle chuck orientation +' },
     { device: '163021', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: '' },
     { device: '163001', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: '' },
   ] },
@@ -112,7 +112,7 @@ const daReferenceCards: DaReferenceCard[] = [
     { device: '919231', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: 'PA1A4EUD' },
     { device: '9033', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA170EUD' },
     { device: '9023', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: 'PA16FEUD' },
-    { device: '919332', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA1AGEUD' },
+    { device: '919332', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA1A6EUD' },
     { device: '919333', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA456EUD' },
     { device: '919331', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: '' },
   ] },
@@ -142,13 +142,13 @@ const daReferenceCards: DaReferenceCard[] = [
     { device: '9144', dieX: '75.6', dieY: '142.5', rubberTip: 'HTR3-75', daCcName: '' },
   ] },
   { family: 'TSL', color: 'lime', references: [
-    { device: '901792', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA459PSL' },
+    { device: '901792', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA459PSL', note: 'needle chuck orientation +' },
     { device: '9', dieX: '0', dieY: '0', rubberTip: '0', daCcName: '0' },
   ] },
   { family: 'TSN', color: 'peach', references: [
     { device: '7684', dieX: '58.3', dieY: '102.8', rubberTip: 'HTR1A-050-080', daCcName: 'PA15BTSN' },
     { device: '195502', dieX: '64.7', dieY: '125', rubberTip: 'HTR3-108', daCcName: 'PA490TSN' },
-    { device: '195501', dieX: '67.7', dieY: '128', rubberTip: 'HTR3-108', daCcName: 'PA0?TSN' },
+    { device: '195501', dieX: '67.7', dieY: '128', rubberTip: 'HTR3-108', daCcName: 'PA0DFTSN' },
   ] },
 ]
 const resources = [
@@ -481,7 +481,7 @@ function App() {
               </thead>
               <tbody>
                 {card.references.map((reference, rowIndex) => <tr key={`${reference.device}-${rowIndex}`}>
-                  <th scope="row"><span className="da-reference-device">{reference.device}{reference.note && <span className="da-reference-note">{reference.note}<span aria-hidden="true">↓</span></span>}</span></th>
+                  <th scope="row"><span className="da-reference-device">{reference.device}{reference.note && <span className="da-reference-note">{reference.note}<span aria-hidden="true"></span></span>}</span></th>
                   <td>{reference.dieX}</td>
                   <td>{reference.dieY}</td>
                   <td>{reference.rubberTip}</td>
