@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+﻿import { useEffect, useState, type FormEvent } from 'react'
 import './App.css'
 
 type Section = 'Dashboard' | 'Wirebond' | 'Die attach' | 'MCA'
@@ -101,37 +101,37 @@ const daReferenceCards: DaReferenceCard[] = [
     { device: '163511', dieX: '88.2', dieY: '88.6', rubberTip: 'HTR1A-050-080', daCcName: 'PA494PSM' },
     { device: '169012', dieX: '73.3', dieY: '95.3', rubberTip: 'HTR3-0175-0219', daCcName: 'PA495PSM' },
   ] },
-  { family: 'TSM', color: 'gold', references: [
-    { device: '1668', dieX: '61', dieY: '133', rubberTip: 'HTR3-0175-0219', daCcName: 'PA44?TSM' },
-    { device: '173511', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA44?TSM' },
+  { family: 'TSM', color: 'yellow', references: [
+    { device: '1668', dieX: '61', dieY: '122', rubberTip: 'HTR3-0175-0219', daCcName: 'PA468TSM' },
+    { device: '173511', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA482TSM' },
   ] },
   { family: 'PSL', color: 'gold', references: [
-    { device: '163012', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA0?PSL' },
+    { device: '163012', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA093PSL' },
   ] },
   { family: 'EUD', color: 'white', references: [
-    { device: '919231', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: 'PA1AMEUD' },
+    { device: '919231', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: 'PA1A4EUD' },
     { device: '9033', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA170EUD' },
     { device: '9023', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: 'PA16FEUD' },
     { device: '919332', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA1AGEUD' },
-    { device: '919333', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA56EUD' },
+    { device: '919333', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA456EUD' },
     { device: '919331', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: '' },
   ] },
   { family: 'TSE', color: 'gray', references: [
     { device: '9174', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA19FTSE' },
     { device: '9173', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA19ETSE' },
-    { device: '1341', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA06?TSE' },
+    { device: '1341', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA065TSE' },
     { device: '7474', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA13ATSE' },
     { device: '9172', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA19DTSE' },
-    { device: '9108', dieX: '45.3', dieY: '90.4', rubberTip: 'R3-02E', daCcName: 'PA17ATSE' },
-    { device: '1340', dieX: '64.6', dieY: '152.4', rubberTip: 'R3-75E', daCcName: 'PA06?TSE' },
+    { device: '9108', dieX: '45.3', dieY: '50.4', rubberTip: 'R3-02E', daCcName: 'PA178TSE' },
+    { device: '1340', dieX: '64.6', dieY: '152.4', rubberTip: 'R3-75E', daCcName: 'PA065TSE' },
     { device: '8336', dieX: '57.5', dieY: '57.5', rubberTip: 'RE-03E', daCcName: '' },
     { device: '1875', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: '' },
   ] },
   { family: 'TSN', color: 'yellow', references: [
-    { device: '195101', dieX: '56.9', dieY: '126', rubberTip: 'HTR3-108', daCcName: 'PA0DETSN' },
-    { device: '192001', dieX: '50.8', dieY: '91.7', rubberTip: '', daCcName: 'PA00?TSN' },
+    { device: '195101', dieX: '66.9', dieY: '126', rubberTip: 'HTR3-108', daCcName: 'PA0DETSN' },
+    { device: '192001', dieX: '50.8', dieY: '91.7', rubberTip: '', daCcName: 'PA0DBTSN' },
     { device: '7699', dieX: '62.2', dieY: '135.4', rubberTip: 'HTR3-108', daCcName: 'PA164TSN' },
-    { device: '195801', dieX: '75.8', dieY: '97.4', rubberTip: 'HTR3-0175-0219', daCcName: 'PA46?TSN' },
+    { device: '195801', dieX: '75.8', dieY: '97.4', rubberTip: 'HTR3-0175-0219', daCcName: 'PA462TSN' },
     { device: '193021', dieX: '67.7', dieY: '128', rubberTip: 'HTR3-108', daCcName: '' },
     { device: '194801', dieX: '75.8', dieY: '101.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA463TSN' },
     { device: '916041', dieX: '82.2', dieY: '92.9', rubberTip: 'HTR3-0175-0219', daCcName: 'PA472TSN' },
@@ -468,7 +468,10 @@ function App() {
             {activeSection === 'Dashboard' ? <aside className="dashboard-references" aria-label="Reference links"><div className="reference-heading"><div className="section-kicker">QUICK LOOKUP</div><h3>Reference links</h3></div>{resources.map((resource) => <a className="dashboard-reference" href={resource.url} key={resource.name} target="_blank" rel="noreferrer"><span className="dashboard-reference-copy"><strong>{resource.name}</strong><small>{resource.description}</small></span><span className="external-arrow" aria-label="Opens in a new tab">↗</span></a>)}</aside> : <aside className="side-notes"><div className="note-heading"><span>SHIFT NOTE</span><span className="note-star">✳</span></div><h3>Good work<br />starts with<br /><em>good habits.</em></h3><div className="note-rule" /><p>Always follow the current released work instructions and your site's safety procedures.</p><div className="note-bottom"><span>TECH ESSENTIALS</span><span>01 — 05</span></div></aside>}
           </div>}
           {activeSection === 'Die attach' && <section className="da-reference-board" aria-label="Die attach device reference tables">
-          {daReferenceCards.map((card, cardIndex) => <article className={`da-reference-card da-reference-card--${card.color}`} key={`${card.family}-${card.color}-${cardIndex}`}>
+          {daReferenceCards.map((card, cardIndex) => {
+            const cardTone = card.family === 'PSM' ? 'yellow' : card.family === 'TSM' ? 'gold' : card.color
+            return (
+              <article className={`da-reference-card da-reference-card--${cardTone}`} key={`${card.family}-${card.color}-${cardIndex}`}>
             <header className="da-reference-heading"><h3>{card.family}</h3></header>
             <table className="da-reference-table">
               <colgroup><col className="hsj-device-column" /><col className="hsj-die-column" /><col className="hsj-die-column" /><col className="hsj-rubber-column" /><col className="hsj-name-column" /></colgroup>
@@ -486,7 +489,9 @@ function App() {
                 </tr>)}
               </tbody>
             </table>
-          </article>)}
+          </article>
+          )
+        })}
           </section>}
           <footer className="page-footer"><span>KEEP IT CLEAR. KEEP IT MOVING.</span><span>TECH ESSENTIALS <b>·</b> {today.getFullYear()}</span></footer>
         </div>
