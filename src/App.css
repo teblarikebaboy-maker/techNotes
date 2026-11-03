@@ -321,7 +321,14 @@
   .page-footer { font-size: 11px; }
 }
 
+.da-reference-search { position: relative; display: flex; max-width: 720px; min-height: 48px; align-items: center; gap: 12px; margin: 0 auto 20px; padding: 0 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); }
+.da-reference-search > svg { width: 19px; height: 19px; flex: 0 0 auto; fill: none; stroke: #778078; stroke-linecap: round; stroke-width: 1.8; }
+.da-reference-search input { width: 100%; min-width: 0; flex: 1; padding: 10px 0; border: 0; outline: 0; color: var(--ink); background: transparent; font: inherit; font-size: 15px; }
+.da-reference-search input:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.da-reference-search input::placeholder { color: #929991; }
+.da-reference-search-count { flex: 0 0 auto; color: var(--muted); font: 10px var(--mono); white-space: nowrap; }
 .da-reference-board { position: relative; left: 50%; display: grid; width: max-content; grid-template-columns: repeat(3, 500px); align-items: start; gap: 16px; margin: 24px 0 0; padding: 16px clamp(10px, 3%, 32px); transform: translateX(-50%); background: #fce4d6; }
+.da-reference-empty { grid-column: 1 / -1; margin: 0; padding: 24px; color: var(--muted); font-size: 15px; text-align: center; }
 .da-reference-card { position: relative; width: 500px; min-width: 0; overflow: hidden; border: 1px solid #000; color: #000; }
 .da-reference-card:has(.da-reference-note) { overflow: visible; }
 .da-reference-card--cyan { background: #00aeef; }

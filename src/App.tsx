@@ -1,12 +1,12 @@
 ﻿import { useEffect, useState, type FormEvent } from 'react'
 import './App.css'
 
-type Section = 'Dashboard' | 'Wirebond' | 'Documents' | 'Die attach' | 'MCA'
+type Section = 'Dashboard' | 'Wirebond' | 'Die attach' | 'MCA'
 type Task = { id: string; title: string; detail?: string; group: string }
 type HsjReference = { device: string; dieX: string; dieY: string; rubberTip: string; daCcName: string; note?: string }
 type DaReferenceCard = { family: string; color: 'cyan' | 'gold' | 'yellow' | 'lavender' | 'magenta' | 'white' | 'gray' | 'lime' | 'peach'; references: HsjReference[] }
 
-const sections: Section[] = ['Dashboard', 'Wirebond', 'Die attach', 'Documents', 'MCA']
+const sections: Section[] = ['Dashboard', 'Wirebond', 'Die attach', 'MCA']
 const dailyTasks: Task[] = [
   { id: 'stand-alone', title: 'Stand Alone', group: 'DAILY CHECK' },
   { id: 'fuguai', title: 'FUGUAI', group: 'DAILY CHECK' },
@@ -31,11 +31,6 @@ const processTasks: Record<'Die attach' | 'MCA', Task[]> = {
     { id: 'mca-closeout', title: 'Close out records and communicate open items', detail: 'Update lot status and shift handover', group: 'CLOSEOUT' },
   ],
 }
-const documentRows = [
-  { station: 'Wire Backside Coating', activity: 'Silicon Cleaning', reference: 'PRC-0002978', title: 'ASSEMBLY MAINTENANCE FOL WBC CLEANING AND SETUP PROCEDURE', specification: '', fmea: '', controlPlan: 'CPL-0000146', ocap: 'OCAP-0000005' },
-  { station: 'Wire Backside Coating', activity: 'Repair', reference: 'PRC-0002978', title: 'ASSEMBLY MAINTENANCE FOL WBC CLEANING AND SETUP PROCEDURE', specification: 'SPEC-000516', fmea: 'FMEA-000300', controlPlan: 'CPL-0000158', ocap: 'OCAP-0000005' },
-  { station: 'Wire Backside Coating', activity: 'Scheduled PM', reference: 'PRC-0002976', title: 'ASSEMBLY PREVENTIVE MAINTENANCE DEK WBC PROCEDURE', specification: 'SPEC-000516', fmea: 'FMEA-000300', controlPlan: 'CPL-0000158', ocap: 'OCAP-0000005' },
-]
 const hsjReferences: HsjReference[] = [
   { device: '1667', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA0A8HSJ' },
   { device: '1826', dieX: '72', dieY: '125.2', rubberTip: 'R3-75E', daCcName: 'PA0CFHSJ' },
@@ -265,6 +260,7 @@ async function saveDatabaseFolder(folder: FileSystemDirectoryHandle) {
 function App() {
   const [today, setToday] = useState(() => new Date())
   const [activeSection, setActiveSection] = useState<Section>('Dashboard')
+  const [daReferenceSearch, setDaReferenceSearch] = useState('')
   const [completed, setCompleted] = useState<string[]>(() => loadCompleted(new Date()))
   const [customWirebondTasks, setCustomWirebondTasks] = useState<Task[]>(loadCustomWirebondTasks)
   const [importantNotes, setImportantNotes] = useState<Task[]>(() => loadSavedSentences(wirebondNotesStorageKey, 'wb-note-'))
@@ -306,30 +302,42 @@ function App() {
     ? dailyTasks
     : activeSection === 'Wirebond'
       ? []
-      : activeSection === 'Documents'
-        ? []
-        : activeSection === 'Die attach'
-          ? processTasks['Die attach']
-          : processTasks.MCA
+      : activeSection === 'Die attach'
+        ? processTasks['Die attach']
+        : processTasks.MCA
   const sectionDone = tasks.filter((task) => completed.includes(task.id)).length
   const sectionTitle = activeSection === 'Dashboard'
     ? 'Daily checklist'
     : activeSection === 'Wirebond'
       ? 'WPT POC'
-      : activeSection === 'Documents'
-        ? 'Documents'
-        : activeSection === 'Die attach'
-          ? 'Die attach reference'
-          : `${activeSection} checklist`
+      : activeSection === 'Die attach'
+        ? 'Die attach reference'
+        : `${activeSection} checklist`
   const sectionDescription = activeSection === 'Dashboard'
     ? 'A clear start, a steady shift, a clean handover.'
     : activeSection === 'Wirebond'
       ? 'Add sentences and copy them when needed.'
-      : activeSection === 'Documents'
-        ? 'Quick access to the current references and support files.'
-        : activeSection === 'Die attach'
-          ? 'Color-coded device and rubber tip references.'
-          : `A quick readiness check for your ${activeSection.toLowerCase()} workflow.`
+      : activeSection === 'Die attach'
+        ? 'Color-coded device and rubber tip references.'
+        : `A quick readiness check for your ${activeSection.toLowerCase()} workflow.`
+  const normalizedDaReferenceSearch = daReferenceSearch.trim().toLowerCase()
+  const filteredDaReferenceCards = daReferenceCards.flatMap((card) => {
+    if (!normalizedDaReferenceSearch) return [card]
+
+    if (card.family.toLowerCase().includes(normalizedDaReferenceSearch)) return [card]
+
+    const references = card.references.filter((reference) => [
+      reference.device,
+      reference.dieX,
+      reference.dieY,
+      reference.rubberTip,
+      reference.daCcName,
+      reference.note ?? '',
+    ].some((value) => value.toLowerCase().includes(normalizedDaReferenceSearch)))
+
+    return references.length > 0 ? [{ ...card, references }] : []
+  })
+  const filteredDaReferenceCount = filteredDaReferenceCards.reduce((count, card) => count + card.references.length, 0)
 
   function toggleTask(id: string) {
     const now = currentDate()
@@ -473,6 +481,12 @@ function App() {
         </header>
         <div className="content-wrap">
           {activeSection !== 'Wirebond' && <div className="section-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>{sectionTitle}</h2><p>{sectionDescription}</p></div>{activeSection !== 'Die attach' && <button className="text-action" type="button" onClick={clearCompleted} disabled={!tasks.some((task) => completed.includes(task.id))}><span aria-hidden="true">↺</span> Reset checks</button>}</div>}
+          {activeSection === 'Die attach' && <div className="da-reference-search">
+            <label className="sr-only" htmlFor="da-reference-search">Search die attach devices or cards</label>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4.5 4.5" /></svg>
+            <input id="da-reference-search" type="search" value={daReferenceSearch} onChange={(event) => setDaReferenceSearch(event.target.value)} placeholder="Search by device or card (e.g. 1667, HSG)" />
+            <span className="da-reference-search-count" aria-live="polite">{filteredDaReferenceCount} DEVICES · {filteredDaReferenceCards.length} CARDS</span>
+          </div>}
           {activeSection === 'Wirebond' ? <div className="wirebond-cards">
             <section className="wirebond-poc" aria-label="WPT POC sentences">
             <header className="wirebond-card-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>WPT POC</h2><p>Add sentences and copy them when needed.</p></div><div className="wirebond-header-actions"><span className="wirebond-card-count">{String(customWirebondTasks.length).padStart(2, '0')} SENTENCES</span><button className="choose-folder" type="button" onClick={() => void chooseDatabaseFolder()}>Choose database folder</button></div></header>
@@ -506,7 +520,7 @@ function App() {
               <p className="task-message" aria-live="polite">{noteMessage}</p>
               {importantNotes.length > 0 ? <ul className="wirebond-sentence-list">{importantNotes.map((note) => <li className="wirebond-sentence" key={note.id}><span>{note.title}</span><span className="sentence-actions"><button className="copy-task" type="button" onClick={() => void copyImportantNote(note)} aria-label={`Copy ${note.title}`}><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v11A1.5 1.5 0 0 0 5.5 18H8" /></svg></button><button className="remove-task" type="button" onClick={() => removeImportantNote(note)} aria-label={`Remove ${note.title}`}>×</button></span></li>)}</ul> : <p className="wirebond-empty">Your important notes will appear here.</p>}
             </section>
-          </div> : activeSection === 'Documents' ? <div className="documents-panel"><div className="maintenance-reference-table-wrap"><table className="maintenance-reference-table"><thead><tr><th>Station</th><th>Maintenance Activities</th><th>Document</th><th>Title</th><th>Specifications</th><th>FMEA</th><th>Control Plan</th><th>OCAP</th></tr></thead><tbody>{documentRows.map((document) => <tr key={`${document.station}-${document.reference}-${document.activity}`}><td>{document.station}</td><td>{document.activity}</td><td>{document.reference}</td><td>{document.title}</td><td>{document.specification || '—'}</td><td>{document.fmea || '—'}</td><td>{document.controlPlan}</td><td>{document.ocap}</td></tr>)}</tbody></table></div></div> : activeSection === 'Die attach' ? null : <div className="workspace-grid">
+          </div> : activeSection === 'Die attach' ? null : <div className="workspace-grid">
             <section className="checklist" aria-label={sectionTitle}>
               <div className="checklist-meta"><span>{activeSection === 'Dashboard' ? 'SHIFT ROUTINE' : `${activeSection.toUpperCase()} READINESS`}</span><span>{String(tasks.length).padStart(2, '0')} ITEMS</span></div>
               {tasks.map((task, index) => <label className={`task-row ${completed.includes(task.id) ? 'is-complete' : ''}`} key={task.id}><input type="checkbox" checked={completed.includes(task.id)} onChange={() => toggleTask(task.id)} /><span className="custom-check" aria-hidden="true"><span>✓</span></span><span className="task-number">{String(index + 1).padStart(2, '0')}</span><span className="task-copy"><span className="task-group">{task.group}</span><strong>{task.title}</strong>{task.detail && <small>{task.detail}</small>}</span><span className="task-tick" aria-hidden="true">↗</span></label>)}
@@ -515,7 +529,7 @@ function App() {
             {activeSection === 'Dashboard' ? <aside className="dashboard-references" aria-label="Reference links"><div className="reference-heading"><div className="section-kicker">QUICK LOOKUP</div><h3>Reference links</h3></div>{resources.map((resource) => <a className="dashboard-reference" href={resource.url} key={resource.name} target="_blank" rel="noreferrer"><span className="dashboard-reference-copy"><strong>{resource.name}</strong><small>{resource.description}</small></span><span className="external-arrow" aria-label="Opens in a new tab">↗</span></a>)}</aside> : <aside className="side-notes"><div className="note-heading"><span>SHIFT NOTE</span><span className="note-star">✳</span></div><h3>Good work<br />starts with<br /><em>good habits.</em></h3><div className="note-rule" /><p>Always follow the current released work instructions and your site's safety procedures.</p><div className="note-bottom"><span>TECH ESSENTIALS</span><span>01 — 05</span></div></aside>}
           </div>}
           {activeSection === 'Die attach' && <section className="da-reference-board" aria-label="Die attach device reference tables">
-          {daReferenceCards.map((card, cardIndex) => {
+          {filteredDaReferenceCards.length > 0 ? filteredDaReferenceCards.map((card, cardIndex) => {
             const cardTone = card.family === 'PSM' ? 'yellow' : card.family === 'TSM' ? 'gold' : card.color
             return (
               <article className={`da-reference-card da-reference-card--${cardTone}`} key={`${card.family}-${card.color}-${cardIndex}`}>
@@ -538,7 +552,7 @@ function App() {
             </table>
           </article>
           )
-        })}
+        }) : <p className="da-reference-empty">No device or card matches “{daReferenceSearch.trim()}”.</p>}
           </section>}
           <footer className="page-footer"><span>KEEP IT CLEAR. KEEP IT MOVING.</span><span>TECH ESSENTIALS <b>·</b> {today.getFullYear()}</span></footer>
         </div>
