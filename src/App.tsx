@@ -3,7 +3,7 @@ import './App.css'
 
 type Section = 'Dashboard' | 'Wirebond' | 'Die attach' | 'MCA'
 type Task = { id: string; title: string; detail?: string; group: string }
-type HsjReference = { device: string; dieX: string; dieY: string; rubberTip: string; daCcName: string }
+type HsjReference = { device: string; dieX: string; dieY: string; rubberTip: string; daCcName: string; note?: string }
 type DaReferenceCard = { family: string; color: 'cyan' | 'gold' | 'yellow' | 'lavender' | 'magenta' | 'white' | 'gray' | 'lime' | 'peach'; references: HsjReference[] }
 
 const sections: Section[] = ['Dashboard', 'Wirebond', 'Die attach', 'MCA']
@@ -44,61 +44,61 @@ const hsjReferences: HsjReference[] = [
 const daReferenceCards: DaReferenceCard[] = [
   { family: 'HSJ', color: 'cyan', references: hsjReferences },
   { family: 'HSH', color: 'cyan', references: [
-    { device: '1684', dieX: '56.3', dieY: '113.4', rubberTip: 'R3-125E', daCcName: 'PA085HSH' },
-    { device: '1692', dieX: '65', dieY: '150.8', rubberTip: 'R3-75E', daCcName: 'PA08FHSH' },
-    { device: '1685', dieX: '56.3', dieY: '113.4', rubberTip: 'R3-125E', daCcName: 'PA085HSH' },
-    { device: '7552', dieX: '83.1', dieY: '154.2', rubberTip: 'R3-130E', daCcName: 'PA155HSH' },
+    { device: '1684', dieX: '56.3', dieY: '113.4', rubberTip: 'R3-125E', daCcName: 'PA0B7HSH' },
+    { device: '1692', dieX: '65', dieY: '150.8', rubberTip: 'R3-75E', daCcName: 'PA0BEHSH' },
+    { device: '1685', dieX: '56.3', dieY: '113.4', rubberTip: 'R3-125E', daCcName: 'PA0B8HSH' },
+    { device: '7552', dieX: '83.1', dieY: '164.2', rubberTip: 'R3-130E', daCcName: 'PA156HSH' },
     { device: '7542', dieX: '62.2', dieY: '106.7', rubberTip: 'R3-74E', daCcName: 'PA150HSH' },
-    { device: '1682', dieX: '51.97', dieY: '80.71', rubberTip: 'R3-124E', daCcName: 'PA083HSH' },
-    { device: '1681', dieX: '62.2', dieY: '93.7', rubberTip: 'R3-32E', daCcName: 'PA04FHSH' },
+    { device: '1682', dieX: '51.97', dieY: '80.71', rubberTip: 'R3-124E', daCcName: 'PA0B3HSH' },
+    { device: '1681', dieX: '62.2', dieY: '93.7', rubberTip: 'R3-32E', daCcName: 'PA0AFHSH' },
     { device: '7551', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA154HSH' },
-    { device: '916921', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA176HSH' },
+    { device: '916921', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA476HSH' },
   ] },
   { family: 'HSG', color: 'cyan', references: [
     { device: '1667', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA0A7HSG' },
-    { device: '7516', dieX: '63.4', dieY: '129.4', rubberTip: 'R3-74E', daCcName: 'PA14DHSG' },
+    { device: '7516', dieX: '63.4', dieY: '124.4', rubberTip: 'R3-74E', daCcName: 'PA14DHSG' },
     { device: '916671', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA197HSG' },
-    { device: '9146', dieX: '63.8', dieY: '137.7', rubberTip: 'R3-74E', daCcName: 'PA19?HSG' },
-    { device: '1605', dieX: '65', dieY: '150.8', rubberTip: 'R3-75E', daCcName: 'PA08?HSG' },
-    { device: '1617', dieX: '60.2', dieY: '130.9', rubberTip: 'R3-74E', daCcName: 'PA08?HSG' },
-    { device: '7194', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA10?HSG' },
-    { device: '1627', dieX: '61', dieY: '124.4', rubberTip: 'R3-74E', daCcName: 'PA08?HSG' },
-    { device: '971941', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA1A8HSG' },
+    { device: '9146', dieX: '63.8', dieY: '137.7', rubberTip: 'R3-74E', daCcName: 'PA193HSG' },
+    { device: '1605', dieX: '65', dieY: '150.8', rubberTip: 'R3-75E', daCcName: 'PA082HSG' },
+    { device: '1617', dieX: '60.2', dieY: '120.9', rubberTip: 'R3-74E', daCcName: 'PA089HSG' },
+    { device: '7194', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA10FHSG' },
+    { device: '1627', dieX: '61', dieY: '124.4', rubberTip: 'R3-74E', daCcName: 'PA08EHSG' },
+    { device: '971941', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA1ABHSG' },
     { device: '175011', dieX: '150', dieY: '65', rubberTip: 'R3-75E', daCcName: 'PA0CAHSG' },
     { device: '1468', dieX: '46.5', dieY: '104.3', rubberTip: 'R3-73E', daCcName: 'PA07CHSG' },
     { device: '916831', dieX: '65', dieY: '105.5', rubberTip: 'R3-125E', daCcName: 'PA470HSG' },
-    { device: '1691', dieX: '63.3', dieY: '149.5', rubberTip: 'R3-75E', daCcName: 'PA08BHSG' },
-    { device: '1601', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA08?HSG' },
-    { device: '1655', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA08?HSG' },
-    { device: '7693', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA15?HSG' },
-    { device: '7697', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA16?HSG' },
+    { device: '1691', dieX: '63.3', dieY: '149.5', rubberTip: 'R3-75E', daCcName: 'PA0BBHSG' },
+    { device: '1601', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA081HSG' },
+    { device: '1655', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA09BHSG' },
+    { device: '7693', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA15FHSG' },
+    { device: '7697', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA162HSG' },
     { device: '9180', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA1A1HSG' },
-    { device: '1681', dieX: '60', dieY: '92', rubberTip: 'R3-32E', daCcName: 'PA04EHSG' },
+    { device: '1681', dieX: '60', dieY: '92', rubberTip: 'R3-32E', daCcName: 'PA0AFHSG' },
     { device: '9023', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: '' },
     { device: '175021', dieX: '150.4', dieY: '65', rubberTip: 'R3-75E', daCcName: '' },
   ] },
   { family: 'TSL', color: 'gold', references: [
     { device: '1678', dieX: '81.5', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA0ADTSL' },
-    { device: '163012', dieX: '91.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA0?TSL' },
-    { device: '901792', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA46?TSL' },
+    { device: '163012', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA093PSL' },
+    { device: '901792', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA460TSL' },
   ] },
   { family: 'TKH', color: 'lavender', references: [
-    { device: '901801', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA16?TKH' },
-    { device: '1696', dieX: '63', dieY: '120.1', rubberTip: 'HTR3-108', daCcName: 'PA0X?TKH' },
-    { device: '9195', dieX: '79.5', dieY: '137.8', rubberTip: 'HTR3-75', daCcName: 'PA14?TKH' },
+    { device: '901801', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA16ETKH' },
+    { device: '1696', dieX: '63', dieY: '120.1', rubberTip: 'HTR3-108', daCcName: 'PA0C7TKH' },
+    { device: '9195', dieX: '79.5', dieY: '137.8', rubberTip: 'HTR3-75', daCcName: 'PA1A7TKH' },
   ] },
   { family: 'PSL', color: 'magenta', references: [
-    { device: '9179', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA14?PSL' },
-    { device: '1677', dieX: '81.5', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA0?PSL' },
-    { device: '163011', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA0?PSL' },
-    { device: '163012', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA0?PSL' },
-    { device: '901791', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108 / HTR3-74', daCcName: 'PA16?PSL' },
+    { device: '9179', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA1A0TSL' },
+    { device: '1677', dieX: '81.5', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA0ACPSL' },
+    { device: '163011', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA093PSL' },
+    { device: '163012', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA093PSL' },
+    { device: '901791', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108 / HTR3-74', daCcName: 'PA16DPSL', note: 'needle chuck orientation' },
     { device: '163021', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: '' },
     { device: '163001', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: '' },
   ] },
   { family: 'PSM', color: 'yellow', references: [
-    { device: '169011', dieX: '97.6', dieY: '88.6', rubberTip: 'HTR3-0175-0219', daCcName: 'PA449PSM' },
-    { device: '165511', dieX: '88.2', dieY: '88.6', rubberTip: 'HTR1A-050-080', daCcName: 'PA494PSM' },
+    { device: '169011', dieX: '97.6', dieY: '88.6', rubberTip: 'HTR3-0175-0219', daCcName: 'PA491PSM' },
+    { device: '163511', dieX: '88.2', dieY: '88.6', rubberTip: 'HTR1A-050-080', daCcName: 'PA494PSM' },
     { device: '169012', dieX: '73.3', dieY: '95.3', rubberTip: 'HTR3-0175-0219', daCcName: 'PA495PSM' },
   ] },
   { family: 'TSM', color: 'gold', references: [
@@ -478,7 +478,7 @@ function App() {
               </thead>
               <tbody>
                 {card.references.map((reference, rowIndex) => <tr key={`${reference.device}-${rowIndex}`}>
-                  <th scope="row">{reference.device}</th>
+                  <th scope="row"><span className="da-reference-device">{reference.device}{reference.note && <span className="da-reference-note">{reference.note}<span aria-hidden="true">↓</span></span>}</span></th>
                   <td>{reference.dieX}</td>
                   <td>{reference.dieY}</td>
                   <td>{reference.rubberTip}</td>

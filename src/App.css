@@ -305,7 +305,8 @@
 }
 
 .da-reference-board { display: grid; width: 826px; max-width: 100%; grid-template-columns: repeat(auto-fit, 213px); align-items: start; justify-content: space-between; gap: 10px 0; margin-top: 24px; padding: 10px 27px; background: #fce4d6; }
-.da-reference-card { width: 213px; max-width: 100%; overflow: hidden; border: 1px solid #000; color: #000; }
+.da-reference-card { position: relative; width: 213px; max-width: 100%; overflow: hidden; border: 1px solid #000; color: #000; }
+.da-reference-card:has(.da-reference-note) { overflow: visible; }
 .da-reference-card--cyan { background: #00aeef; }
 .da-reference-card--gold { background: #ffc000; }
 .da-reference-card--yellow { background: #ffff00; }
@@ -318,15 +319,18 @@
 .da-reference-heading { display: flex; height: 25px; align-items: center; justify-content: center; border-bottom: 1px solid #000; }
 .da-reference-heading h3 { margin: 0; color: #000; font-size: 17px; font-weight: 750; line-height: 1; text-decoration-line: underline; text-decoration-style: double; text-underline-offset: 2px; }
 .da-reference-table { width: 100%; table-layout: fixed; border-collapse: collapse; color: #000; text-align: center; }
-.hsj-device-column { width: 22%; }
-.hsj-die-column { width: 14%; }
-.hsj-rubber-column { width: 30%; }
+.hsj-device-column { width: 18%; }
+.hsj-die-column { width: 11%; }
+.hsj-rubber-column { width: 40%; }
 .hsj-name-column { width: 20%; }
 .da-reference-table th, .da-reference-table td { height: 11px; padding: 0 1px; border: 1px solid #000; line-height: 9px; white-space: nowrap; }
 .da-reference-table thead th { font-size: 7px; font-weight: 700; }
 .da-reference-table tbody th, .da-reference-table tbody td { font-size: 7px; }
 .da-reference-table tbody th { font-weight: 700; text-decoration: underline; text-underline-offset: 1px; }
 .da-reference-table tbody td:nth-child(4) { font-weight: 700; }
+.da-reference-device { position: relative; display: inline-block; }
+.da-reference-note { position: absolute; top: 50%; left: -105px; z-index: 1; display: flex; width: 103px; height: 11px; align-items: center; justify-content: center; gap: 2px; transform: translateY(-50%); color: #ffff00; background: #f00; font-size: 6px; font-weight: 400; line-height: 1; text-decoration: none; white-space: nowrap; }
+.da-reference-note span { font-size: 7px; font-weight: 700; line-height: 1; }
 @media (max-width: 480px) {
   .da-reference-board { grid-template-columns: repeat(auto-fit, 213px); justify-content: center; padding-right: 10px; padding-left: 10px; }
 }
