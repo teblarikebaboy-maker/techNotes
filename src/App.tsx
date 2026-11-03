@@ -3,6 +3,8 @@ import './App.css'
 
 type Section = 'Dashboard' | 'Wirebond' | 'Die attach' | 'MCA'
 type Task = { id: string; title: string; detail?: string; group: string }
+type HsjReference = { device: string; dieX: string; dieY: string; rubberTip: string; daCcName: string }
+type DaReferenceCard = { family: string; color: 'cyan' | 'gold' | 'yellow' | 'lavender' | 'magenta' | 'white' | 'gray' | 'lime' | 'peach'; references: HsjReference[] }
 
 const sections: Section[] = ['Dashboard', 'Wirebond', 'Die attach', 'MCA']
 const dailyTasks: Task[] = [
@@ -29,6 +31,126 @@ const processTasks: Record<'Die attach' | 'MCA', Task[]> = {
     { id: 'mca-closeout', title: 'Close out records and communicate open items', detail: 'Update lot status and shift handover', group: 'CLOSEOUT' },
   ],
 }
+const hsjReferences: HsjReference[] = [
+  { device: '1667', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA0A8HSJ' },
+  { device: '1826', dieX: '72', dieY: '125.2', rubberTip: 'R3-75E', daCcName: 'PA0CFHSJ' },
+  { device: '1468', dieX: '46.5', dieY: '104.3', rubberTip: 'R3-73E', daCcName: 'PA07DHSJ' },
+  { device: '7667', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA159HSJ' },
+  { device: '916671', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA197HSG' },
+  { device: '1617', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA08AHSJ' },
+  { device: '1627', dieX: '61', dieY: '124.4', rubberTip: 'R3-74E', daCcName: 'PA08FHSJ' },
+  { device: '7516', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA14EHSJ' },
+]
+const daReferenceCards: DaReferenceCard[] = [
+  { family: 'HSJ', color: 'cyan', references: hsjReferences },
+  { family: 'HSH', color: 'cyan', references: [
+    { device: '1684', dieX: '56.3', dieY: '113.4', rubberTip: 'R3-125E', daCcName: 'PA085HSH' },
+    { device: '1692', dieX: '65', dieY: '150.8', rubberTip: 'R3-75E', daCcName: 'PA08FHSH' },
+    { device: '1685', dieX: '56.3', dieY: '113.4', rubberTip: 'R3-125E', daCcName: 'PA085HSH' },
+    { device: '7552', dieX: '83.1', dieY: '154.2', rubberTip: 'R3-130E', daCcName: 'PA155HSH' },
+    { device: '7542', dieX: '62.2', dieY: '106.7', rubberTip: 'R3-74E', daCcName: 'PA150HSH' },
+    { device: '1682', dieX: '51.97', dieY: '80.71', rubberTip: 'R3-124E', daCcName: 'PA083HSH' },
+    { device: '1681', dieX: '62.2', dieY: '93.7', rubberTip: 'R3-32E', daCcName: 'PA04FHSH' },
+    { device: '7551', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA154HSH' },
+    { device: '916921', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA176HSH' },
+  ] },
+  { family: 'HSG', color: 'cyan', references: [
+    { device: '1667', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA0A7HSG' },
+    { device: '7516', dieX: '63.4', dieY: '129.4', rubberTip: 'R3-74E', daCcName: 'PA14DHSG' },
+    { device: '916671', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA197HSG' },
+    { device: '9146', dieX: '63.8', dieY: '137.7', rubberTip: 'R3-74E', daCcName: 'PA19?HSG' },
+    { device: '1605', dieX: '65', dieY: '150.8', rubberTip: 'R3-75E', daCcName: 'PA08?HSG' },
+    { device: '1617', dieX: '60.2', dieY: '130.9', rubberTip: 'R3-74E', daCcName: 'PA08?HSG' },
+    { device: '7194', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA10?HSG' },
+    { device: '1627', dieX: '61', dieY: '124.4', rubberTip: 'R3-74E', daCcName: 'PA08?HSG' },
+    { device: '971941', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA1A8HSG' },
+    { device: '175011', dieX: '150', dieY: '65', rubberTip: 'R3-75E', daCcName: 'PA0CAHSG' },
+    { device: '1468', dieX: '46.5', dieY: '104.3', rubberTip: 'R3-73E', daCcName: 'PA07CHSG' },
+    { device: '916831', dieX: '65', dieY: '105.5', rubberTip: 'R3-125E', daCcName: 'PA470HSG' },
+    { device: '1691', dieX: '63.3', dieY: '149.5', rubberTip: 'R3-75E', daCcName: 'PA08BHSG' },
+    { device: '1601', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA08?HSG' },
+    { device: '1655', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA08?HSG' },
+    { device: '7693', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA15?HSG' },
+    { device: '7697', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA16?HSG' },
+    { device: '9180', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA1A1HSG' },
+    { device: '1681', dieX: '60', dieY: '92', rubberTip: 'R3-32E', daCcName: 'PA04EHSG' },
+    { device: '9023', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: '' },
+    { device: '175021', dieX: '150.4', dieY: '65', rubberTip: 'R3-75E', daCcName: '' },
+  ] },
+  { family: 'TSL', color: 'gold', references: [
+    { device: '1678', dieX: '81.5', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA0ADTSL' },
+    { device: '163012', dieX: '91.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA0?TSL' },
+    { device: '901792', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA46?TSL' },
+  ] },
+  { family: 'TKH', color: 'lavender', references: [
+    { device: '901801', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA16?TKH' },
+    { device: '1696', dieX: '63', dieY: '120.1', rubberTip: 'HTR3-108', daCcName: 'PA0X?TKH' },
+    { device: '9195', dieX: '79.5', dieY: '137.8', rubberTip: 'HTR3-75', daCcName: 'PA14?TKH' },
+  ] },
+  { family: 'PSL', color: 'magenta', references: [
+    { device: '9179', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA14?PSL' },
+    { device: '1677', dieX: '81.5', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA0?PSL' },
+    { device: '163011', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA0?PSL' },
+    { device: '163012', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA0?PSL' },
+    { device: '901791', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108 / HTR3-74', daCcName: 'PA16?PSL' },
+    { device: '163021', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: '' },
+    { device: '163001', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: '' },
+  ] },
+  { family: 'PSM', color: 'yellow', references: [
+    { device: '169011', dieX: '97.6', dieY: '88.6', rubberTip: 'HTR3-0175-0219', daCcName: 'PA449PSM' },
+    { device: '165511', dieX: '88.2', dieY: '88.6', rubberTip: 'HTR1A-050-080', daCcName: 'PA494PSM' },
+    { device: '169012', dieX: '73.3', dieY: '95.3', rubberTip: 'HTR3-0175-0219', daCcName: 'PA495PSM' },
+  ] },
+  { family: 'TSM', color: 'gold', references: [
+    { device: '1668', dieX: '61', dieY: '133', rubberTip: 'HTR3-0175-0219', daCcName: 'PA44?TSM' },
+    { device: '173511', dieX: '', dieY: '', rubberTip: '', daCcName: 'PA44?TSM' },
+  ] },
+  { family: 'PSL', color: 'gold', references: [
+    { device: '163012', dieX: '94.5', dieY: '76.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA0?PSL' },
+  ] },
+  { family: 'EUD', color: 'white', references: [
+    { device: '919231', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: 'PA1AMEUD' },
+    { device: '9033', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA170EUD' },
+    { device: '9023', dieX: '79.5', dieY: '59.1', rubberTip: 'R3-32E', daCcName: 'PA16FEUD' },
+    { device: '919332', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA1AGEUD' },
+    { device: '919333', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: 'PA56EUD' },
+    { device: '919331', dieX: '122', dieY: '61.8', rubberTip: 'R3-74E', daCcName: '' },
+  ] },
+  { family: 'TSE', color: 'gray', references: [
+    { device: '9174', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA19FTSE' },
+    { device: '9173', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA19ETSE' },
+    { device: '1341', dieX: '65', dieY: '159.8', rubberTip: 'R3-75E', daCcName: 'PA06?TSE' },
+    { device: '7474', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA13ATSE' },
+    { device: '9172', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: 'PA19DTSE' },
+    { device: '9108', dieX: '45.3', dieY: '90.4', rubberTip: 'R3-02E', daCcName: 'PA17ATSE' },
+    { device: '1340', dieX: '64.6', dieY: '152.4', rubberTip: 'R3-75E', daCcName: 'PA06?TSE' },
+    { device: '8336', dieX: '57.5', dieY: '57.5', rubberTip: 'RE-03E', daCcName: '' },
+    { device: '1875', dieX: '65', dieY: '118.9', rubberTip: 'R3-74E', daCcName: '' },
+  ] },
+  { family: 'TSN', color: 'yellow', references: [
+    { device: '195101', dieX: '56.9', dieY: '126', rubberTip: 'HTR3-108', daCcName: 'PA0DETSN' },
+    { device: '192001', dieX: '50.8', dieY: '91.7', rubberTip: '', daCcName: 'PA00?TSN' },
+    { device: '7699', dieX: '62.2', dieY: '135.4', rubberTip: 'HTR3-108', daCcName: 'PA164TSN' },
+    { device: '195801', dieX: '75.8', dieY: '97.4', rubberTip: 'HTR3-0175-0219', daCcName: 'PA46?TSN' },
+    { device: '193021', dieX: '67.7', dieY: '128', rubberTip: 'HTR3-108', daCcName: '' },
+    { device: '194801', dieX: '75.8', dieY: '101.8', rubberTip: 'HTR3-0175-0219', daCcName: 'PA463TSN' },
+    { device: '916041', dieX: '82.2', dieY: '92.9', rubberTip: 'HTR3-0175-0219', daCcName: 'PA472TSN' },
+    { device: '194501', dieX: '53.9', dieY: '103.1', rubberTip: 'HTR1A-050-080', daCcName: 'PA0DDTSN' },
+  ] },
+  { family: 'TSP', color: 'gold', references: [
+    { device: '9143', dieX: '75.6', dieY: '142.5', rubberTip: 'HTR3-75', daCcName: 'PA192TSP' },
+    { device: '9144', dieX: '75.6', dieY: '142.5', rubberTip: 'HTR3-75', daCcName: '' },
+  ] },
+  { family: 'TSL', color: 'lime', references: [
+    { device: '901792', dieX: '69.7', dieY: '121.7', rubberTip: 'HTR3-108', daCcName: 'PA459PSL' },
+    { device: '9', dieX: '0', dieY: '0', rubberTip: '0', daCcName: '0' },
+  ] },
+  { family: 'TSN', color: 'peach', references: [
+    { device: '7684', dieX: '58.3', dieY: '102.8', rubberTip: 'HTR1A-050-080', daCcName: 'PA15BTSN' },
+    { device: '195502', dieX: '64.7', dieY: '125', rubberTip: 'HTR3-108', daCcName: 'PA490TSN' },
+    { device: '195501', dieX: '67.7', dieY: '128', rubberTip: 'HTR3-108', daCcName: 'PA0?TSN' },
+  ] },
+]
 const resources = [
   { name: 'OPCENTER', description: 'Semiconductor industry standards and resources', url: 'https://ampicamaprod.allegro.msad/CamstarPortal/default.htm#/login' },
   { name: 'FUGUAI', description: 'Electronics manufacturing standards', url: 'https://apps.powerapps.com/play/e/default-64a381f3-c476-46f3-be30-99406d2ef129/a/60fa7854-6e19-46cf-a12e-af5ac2b009fa?tenantId=64a381f3-c476-46f3-be30-99406d2ef129&hint=c46e0620-a7f1-421b-9697-9dd1bd62a6dc&sourcetime=1773211250806' },
@@ -181,12 +303,14 @@ function App() {
       ? []
       : processTasks[activeSection]
   const sectionDone = tasks.filter((task) => completed.includes(task.id)).length
-  const sectionTitle = activeSection === 'Dashboard' ? 'Daily checklist' : activeSection === 'Wirebond' ? 'WPT POC' : `${activeSection} checklist`
+  const sectionTitle = activeSection === 'Dashboard' ? 'Daily checklist' : activeSection === 'Wirebond' ? 'WPT POC' : activeSection === 'Die attach' ? 'Die attach reference' : `${activeSection} checklist`
   const sectionDescription = activeSection === 'Dashboard'
     ? 'A clear start, a steady shift, a clean handover.'
     : activeSection === 'Wirebond'
       ? 'Add sentences and copy them when needed.'
-      : `A quick readiness check for your ${activeSection.toLowerCase()} workflow.`
+      : activeSection === 'Die attach'
+        ? 'Color-coded device and rubber tip references.'
+        : `A quick readiness check for your ${activeSection.toLowerCase()} workflow.`
 
   function toggleTask(id: string) {
     const now = currentDate()
@@ -320,7 +444,7 @@ function App() {
           <div className="today-label"><span className="calendar-mark" aria-hidden="true">▦</span>{today.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </header>
         <div className="content-wrap">
-          {activeSection !== 'Wirebond' && <div className="section-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>{sectionTitle}</h2><p>{sectionDescription}</p></div><button className="text-action" type="button" onClick={clearCompleted} disabled={!tasks.some((task) => completed.includes(task.id))}><span aria-hidden="true">↺</span> Reset checks</button></div>}
+          {activeSection !== 'Wirebond' && <div className="section-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>{sectionTitle}</h2><p>{sectionDescription}</p></div>{activeSection !== 'Die attach' && <button className="text-action" type="button" onClick={clearCompleted} disabled={!tasks.some((task) => completed.includes(task.id))}><span aria-hidden="true">↺</span> Reset checks</button>}</div>}
           {activeSection === 'Wirebond' ? <div className="wirebond-cards">
             <section className="wirebond-poc" aria-label="WPT POC sentences">
             <header className="wirebond-card-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>WPT POC</h2><p>Add sentences and copy them when needed.</p></div><div className="wirebond-header-actions"><span className="wirebond-card-count">{String(customWirebondTasks.length).padStart(2, '0')} SENTENCES</span><button className="choose-folder" type="button" onClick={() => void chooseDatabaseFolder()}>Choose database folder</button></div></header>
@@ -335,7 +459,7 @@ function App() {
               <p className="task-message" aria-live="polite">{noteMessage}</p>
               {importantNotes.length > 0 ? <ul className="wirebond-sentence-list">{importantNotes.map((note) => <li className="wirebond-sentence" key={note.id}><span>{note.title}</span><span className="sentence-actions"><button className="copy-task" type="button" onClick={() => void copyImportantNote(note)} aria-label={`Copy ${note.title}`}><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v11A1.5 1.5 0 0 0 5.5 18H8" /></svg></button><button className="remove-task" type="button" onClick={() => removeImportantNote(note)} aria-label={`Remove ${note.title}`}>×</button></span></li>)}</ul> : <p className="wirebond-empty">Your important notes will appear here.</p>}
             </section>
-          </div> : <div className="workspace-grid">
+          </div> : activeSection === 'Die attach' ? null : <div className="workspace-grid">
             <section className="checklist" aria-label={sectionTitle}>
               <div className="checklist-meta"><span>{activeSection === 'Dashboard' ? 'SHIFT ROUTINE' : `${activeSection.toUpperCase()} READINESS`}</span><span>{String(tasks.length).padStart(2, '0')} ITEMS</span></div>
               {tasks.map((task, index) => <label className={`task-row ${completed.includes(task.id) ? 'is-complete' : ''}`} key={task.id}><input type="checkbox" checked={completed.includes(task.id)} onChange={() => toggleTask(task.id)} /><span className="custom-check" aria-hidden="true"><span>✓</span></span><span className="task-number">{String(index + 1).padStart(2, '0')}</span><span className="task-copy"><span className="task-group">{task.group}</span><strong>{task.title}</strong>{task.detail && <small>{task.detail}</small>}</span><span className="task-tick" aria-hidden="true">↗</span></label>)}
@@ -343,6 +467,27 @@ function App() {
             </section>
             {activeSection === 'Dashboard' ? <aside className="dashboard-references" aria-label="Reference links"><div className="reference-heading"><div className="section-kicker">QUICK LOOKUP</div><h3>Reference links</h3></div>{resources.map((resource) => <a className="dashboard-reference" href={resource.url} key={resource.name} target="_blank" rel="noreferrer"><span className="dashboard-reference-copy"><strong>{resource.name}</strong><small>{resource.description}</small></span><span className="external-arrow" aria-label="Opens in a new tab">↗</span></a>)}</aside> : <aside className="side-notes"><div className="note-heading"><span>SHIFT NOTE</span><span className="note-star">✳</span></div><h3>Good work<br />starts with<br /><em>good habits.</em></h3><div className="note-rule" /><p>Always follow the current released work instructions and your site's safety procedures.</p><div className="note-bottom"><span>TECH ESSENTIALS</span><span>01 — 05</span></div></aside>}
           </div>}
+          {activeSection === 'Die attach' && <section className="da-reference-board" aria-label="Die attach device reference tables">
+          {daReferenceCards.map((card, cardIndex) => <article className={`da-reference-card da-reference-card--${card.color}`} key={`${card.family}-${card.color}-${cardIndex}`}>
+            <header className="da-reference-heading"><h3>{card.family}</h3></header>
+            <table className="da-reference-table">
+              <colgroup><col className="hsj-device-column" /><col className="hsj-die-column" /><col className="hsj-die-column" /><col className="hsj-rubber-column" /><col className="hsj-name-column" /></colgroup>
+              <thead>
+                <tr><th rowSpan={2} scope="col">DEVICE</th><th colSpan={2} scope="colgroup">DIE SIZE</th><th scope="col">RUBBER</th><th rowSpan={2} scope="col">DA CC NAME</th></tr>
+                <tr><th scope="col">X</th><th scope="col">Y</th><th scope="col">TIP</th></tr>
+              </thead>
+              <tbody>
+                {card.references.map((reference, rowIndex) => <tr key={`${reference.device}-${rowIndex}`}>
+                  <th scope="row">{reference.device}</th>
+                  <td>{reference.dieX}</td>
+                  <td>{reference.dieY}</td>
+                  <td>{reference.rubberTip}</td>
+                  <td>{reference.daCcName}</td>
+                </tr>)}
+              </tbody>
+            </table>
+          </article>)}
+          </section>}
           <footer className="page-footer"><span>KEEP IT CLEAR. KEEP IT MOVING.</span><span>TECH ESSENTIALS <b>·</b> {today.getFullYear()}</span></footer>
         </div>
       </main>
