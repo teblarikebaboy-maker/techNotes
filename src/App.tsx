@@ -10,6 +10,7 @@ const dailyTasks: Task[] = [
   { id: 'fuguai', title: 'FUGUAI', group: 'DAILY CHECK' },
   { id: '5s', title: '5S', group: 'DAILY CHECK' },
   { id: 'run-rate', title: 'Run Rate', group: 'DAILY CHECK' },
+  { id: 'ENERCON', title: 'ENERCON', group: 'DAILY CHECK' },
 ]
 const processTasks: Record<'Wirebond' | 'Die attach' | 'MCA', Task[]> = {
   Wirebond: [
