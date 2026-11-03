@@ -1,12 +1,12 @@
 ﻿import { useEffect, useState, type FormEvent } from 'react'
 import './App.css'
 
-type Section = 'Dashboard' | 'Wirebond' | 'Die attach' | 'MCA'
+type Section = 'Dashboard' | 'Wirebond' | 'Documents' | 'Die attach' | 'MCA'
 type Task = { id: string; title: string; detail?: string; group: string }
 type HsjReference = { device: string; dieX: string; dieY: string; rubberTip: string; daCcName: string; note?: string }
 type DaReferenceCard = { family: string; color: 'cyan' | 'gold' | 'yellow' | 'lavender' | 'magenta' | 'white' | 'gray' | 'lime' | 'peach'; references: HsjReference[] }
 
-const sections: Section[] = ['Dashboard', 'Wirebond', 'Die attach', 'MCA']
+const sections: Section[] = ['Dashboard', 'Wirebond', 'Die attach', 'Documents', 'MCA']
 const dailyTasks: Task[] = [
   { id: 'stand-alone', title: 'Stand Alone', group: 'DAILY CHECK' },
   { id: 'fuguai', title: 'FUGUAI', group: 'DAILY CHECK' },
@@ -31,6 +31,11 @@ const processTasks: Record<'Die attach' | 'MCA', Task[]> = {
     { id: 'mca-closeout', title: 'Close out records and communicate open items', detail: 'Update lot status and shift handover', group: 'CLOSEOUT' },
   ],
 }
+const documentRows = [
+  { station: 'Wire Backside Coating', activity: 'Silicon Cleaning', reference: 'PRC-0002978', title: 'ASSEMBLY MAINTENANCE FOL WBC CLEANING AND SETUP PROCEDURE', specification: '', fmea: '', controlPlan: 'CPL-0000146', ocap: 'OCAP-0000005' },
+  { station: 'Wire Backside Coating', activity: 'Repair', reference: 'PRC-0002978', title: 'ASSEMBLY MAINTENANCE FOL WBC CLEANING AND SETUP PROCEDURE', specification: 'SPEC-000516', fmea: 'FMEA-000300', controlPlan: 'CPL-0000158', ocap: 'OCAP-0000005' },
+  { station: 'Wire Backside Coating', activity: 'Scheduled PM', reference: 'PRC-0002976', title: 'ASSEMBLY PREVENTIVE MAINTENANCE DEK WBC PROCEDURE', specification: 'SPEC-000516', fmea: 'FMEA-000300', controlPlan: 'CPL-0000158', ocap: 'OCAP-0000005' },
+]
 const hsjReferences: HsjReference[] = [
   { device: '1667', dieX: '62.2', dieY: '129.1', rubberTip: 'R3-74E', daCcName: 'PA0A8HSJ' },
   { device: '1826', dieX: '72', dieY: '125.2', rubberTip: 'R3-75E', daCcName: 'PA0CFHSJ' },
@@ -301,16 +306,30 @@ function App() {
     ? dailyTasks
     : activeSection === 'Wirebond'
       ? []
-      : processTasks[activeSection]
+      : activeSection === 'Documents'
+        ? []
+        : activeSection === 'Die attach'
+          ? processTasks['Die attach']
+          : processTasks.MCA
   const sectionDone = tasks.filter((task) => completed.includes(task.id)).length
-  const sectionTitle = activeSection === 'Dashboard' ? 'Daily checklist' : activeSection === 'Wirebond' ? 'WPT POC' : activeSection === 'Die attach' ? 'Die attach reference' : `${activeSection} checklist`
+  const sectionTitle = activeSection === 'Dashboard'
+    ? 'Daily checklist'
+    : activeSection === 'Wirebond'
+      ? 'WPT POC'
+      : activeSection === 'Documents'
+        ? 'Documents'
+        : activeSection === 'Die attach'
+          ? 'Die attach reference'
+          : `${activeSection} checklist`
   const sectionDescription = activeSection === 'Dashboard'
     ? 'A clear start, a steady shift, a clean handover.'
     : activeSection === 'Wirebond'
       ? 'Add sentences and copy them when needed.'
-      : activeSection === 'Die attach'
-        ? 'Color-coded device and rubber tip references.'
-        : `A quick readiness check for your ${activeSection.toLowerCase()} workflow.`
+      : activeSection === 'Documents'
+        ? 'Quick access to the current references and support files.'
+        : activeSection === 'Die attach'
+          ? 'Color-coded device and rubber tip references.'
+          : `A quick readiness check for your ${activeSection.toLowerCase()} workflow.`
 
   function toggleTask(id: string) {
     const now = currentDate()
@@ -407,6 +426,15 @@ function App() {
     }
   }
 
+  async function copyWptPocLine(line: string) {
+    try {
+      await navigator.clipboard.writeText(line)
+      setTaskMessage('Copied WPT POC statement.')
+    } catch {
+      setTaskMessage('Could not copy the WPT POC statement. Check clipboard permissions and try again.')
+    }
+  }
+
   async function chooseDatabaseFolder() {
     const pickerWindow = window as DirectoryPickerWindow
     if (!pickerWindow.showDirectoryPicker) {
@@ -448,6 +476,25 @@ function App() {
           {activeSection === 'Wirebond' ? <div className="wirebond-cards">
             <section className="wirebond-poc" aria-label="WPT POC sentences">
             <header className="wirebond-card-heading"><div><div className="section-kicker">TODAY'S WORKSPACE</div><h2>WPT POC</h2><p>Add sentences and copy them when needed.</p></div><div className="wirebond-header-actions"><span className="wirebond-card-count">{String(customWirebondTasks.length).padStart(2, '0')} SENTENCES</span><button className="choose-folder" type="button" onClick={() => void chooseDatabaseFolder()}>Choose database folder</button></div></header>
+            <div className="wirebond-static-card" aria-live="polite">
+              <div className="wirebond-static-card-header">
+                <span className="section-kicker">REPORT SUMMARY</span>
+              </div>
+              <div className="wirebond-static-card-body">
+                <div className="wirebond-static-line">
+                  <p>Checked and verified the report problem. WPT POC above UCL. Performed ocap: Checked the ff., bouncing pads or leads, cap level/Z ht. cap and cap screw condition, cap impedance, EFO condition and alignment, wire clamp gap and force. Cap clearance.</p>
+                  <button className="copy-static-card" type="button" onClick={() => void copyWptPocLine('Checked and verified the report problem. WPT POC above UCL. Performed ocap: Checked the ff., bouncing pads or leads, cap level/Z ht. cap and cap screw condition, cap impedance, EFO condition and alignment, wire clamp gap and force. Cap clearance.')} aria-label="Copy WPT POC statement 1">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v11A1.5 1.5 0 0 0 5.5 18H8" /></svg>
+                  </button>
+                </div>
+                <div className="wirebond-static-line">
+                  <p>From window clamp, result of checking - all are ok and within the specs. Checked loop parameters - already at the min. setting. No machine anomaly found - good opportunity points.</p>
+                  <button className="copy-static-card" type="button" onClick={() => void copyWptPocLine('From window clamp, result of checking - all are ok and within the specs. Checked loop parameters - already at the min. setting. No machine anomaly found - good opportunity points.')} aria-label="Copy WPT POC statement 2">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v11A1.5 1.5 0 0 0 5.5 18H8" /></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
             <p className="folder-selection" aria-live="polite">{databaseFolderName ? `Selected folder: ${databaseFolderName}` : 'No database folder selected.'} {folderMessage}</p>
             <form className="add-task-form" onSubmit={addWirebondTask}><label className="sr-only" htmlFor="wirebond-task">Add a sentence</label><input id="wirebond-task" value={newTaskTitle} onChange={(event) => setNewTaskTitle(event.target.value)} placeholder="Enter a sentence" /><button type="submit" disabled={!newTaskTitle.trim()}>Add</button></form>
             <p className="task-message" aria-live="polite">{taskMessage}</p>
@@ -459,7 +506,7 @@ function App() {
               <p className="task-message" aria-live="polite">{noteMessage}</p>
               {importantNotes.length > 0 ? <ul className="wirebond-sentence-list">{importantNotes.map((note) => <li className="wirebond-sentence" key={note.id}><span>{note.title}</span><span className="sentence-actions"><button className="copy-task" type="button" onClick={() => void copyImportantNote(note)} aria-label={`Copy ${note.title}`}><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v11A1.5 1.5 0 0 0 5.5 18H8" /></svg></button><button className="remove-task" type="button" onClick={() => removeImportantNote(note)} aria-label={`Remove ${note.title}`}>×</button></span></li>)}</ul> : <p className="wirebond-empty">Your important notes will appear here.</p>}
             </section>
-          </div> : activeSection === 'Die attach' ? null : <div className="workspace-grid">
+          </div> : activeSection === 'Documents' ? <div className="documents-panel"><div className="maintenance-reference-table-wrap"><table className="maintenance-reference-table"><thead><tr><th>Station</th><th>Maintenance Activities</th><th>Document</th><th>Title</th><th>Specifications</th><th>FMEA</th><th>Control Plan</th><th>OCAP</th></tr></thead><tbody>{documentRows.map((document) => <tr key={`${document.station}-${document.reference}-${document.activity}`}><td>{document.station}</td><td>{document.activity}</td><td>{document.reference}</td><td>{document.title}</td><td>{document.specification || '—'}</td><td>{document.fmea || '—'}</td><td>{document.controlPlan}</td><td>{document.ocap}</td></tr>)}</tbody></table></div></div> : activeSection === 'Die attach' ? null : <div className="workspace-grid">
             <section className="checklist" aria-label={sectionTitle}>
               <div className="checklist-meta"><span>{activeSection === 'Dashboard' ? 'SHIFT ROUTINE' : `${activeSection.toUpperCase()} READINESS`}</span><span>{String(tasks.length).padStart(2, '0')} ITEMS</span></div>
               {tasks.map((task, index) => <label className={`task-row ${completed.includes(task.id) ? 'is-complete' : ''}`} key={task.id}><input type="checkbox" checked={completed.includes(task.id)} onChange={() => toggleTask(task.id)} /><span className="custom-check" aria-hidden="true"><span>✓</span></span><span className="task-number">{String(index + 1).padStart(2, '0')}</span><span className="task-copy"><span className="task-group">{task.group}</span><strong>{task.title}</strong>{task.detail && <small>{task.detail}</small>}</span><span className="task-tick" aria-hidden="true">↗</span></label>)}
