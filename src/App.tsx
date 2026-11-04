@@ -534,22 +534,24 @@ function App() {
             return (
               <article className={`da-reference-card da-reference-card--${cardTone}`} key={`${card.family}-${card.color}-${cardIndex}`}>
             <header className="da-reference-heading"><h3>{card.family}</h3></header>
-            <table className="da-reference-table">
-              <colgroup><col className="hsj-device-column" /><col className="hsj-die-column" /><col className="hsj-die-column" /><col className="hsj-rubber-column" /><col className="hsj-name-column" /></colgroup>
-              <thead>
-                <tr><th rowSpan={2} scope="col">DEVICE</th><th colSpan={2} scope="colgroup">DIE SIZE</th><th scope="col">RUBBER</th><th rowSpan={2} scope="col">DA CC NAME</th></tr>
-                <tr><th scope="col">X</th><th scope="col">Y</th><th scope="col">TIP</th></tr>
-              </thead>
-              <tbody>
-                {card.references.map((reference, rowIndex) => <tr key={`${reference.device}-${rowIndex}`}>
-                  <th scope="row"><span className="da-reference-device">{reference.device}{reference.note && <span className="da-reference-note">{reference.note}<span aria-hidden="true"></span></span>}</span></th>
-                  <td>{reference.dieX}</td>
-                  <td>{reference.dieY}</td>
-                  <td>{reference.rubberTip}</td>
-                  <td>{reference.daCcName}</td>
-                </tr>)}
-              </tbody>
-            </table>
+            <div className="da-reference-table-wrap" role="region" aria-label={`${card.family} reference table`} tabIndex={0}>
+              <table className="da-reference-table">
+                <colgroup><col className="hsj-device-column" /><col className="hsj-die-column" /><col className="hsj-die-column" /><col className="hsj-rubber-column" /><col className="hsj-name-column" /></colgroup>
+                <thead>
+                  <tr><th rowSpan={2} scope="col">DEVICE</th><th colSpan={2} scope="colgroup">DIE SIZE</th><th scope="col">RUBBER</th><th rowSpan={2} scope="col">DA CC NAME</th></tr>
+                  <tr><th scope="col">X</th><th scope="col">Y</th><th scope="col">TIP</th></tr>
+                </thead>
+                <tbody>
+                  {card.references.map((reference, rowIndex) => <tr key={`${reference.device}-${rowIndex}`}>
+                    <th scope="row"><span className="da-reference-device">{reference.device}{reference.note && <span className="da-reference-note">{reference.note}<span aria-hidden="true"></span></span>}</span></th>
+                    <td>{reference.dieX}</td>
+                    <td>{reference.dieY}</td>
+                    <td>{reference.rubberTip}</td>
+                    <td>{reference.daCcName}</td>
+                  </tr>)}
+                </tbody>
+              </table>
+            </div>
           </article>
           )
         }) : <p className="da-reference-empty">No device or card matches “{daReferenceSearch.trim()}”.</p>}

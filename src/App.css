@@ -327,9 +327,9 @@
 .da-reference-search input:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 .da-reference-search input::placeholder { color: #929991; }
 .da-reference-search-count { flex: 0 0 auto; color: var(--muted); font: 10px var(--mono); white-space: nowrap; }
-.da-reference-board { position: relative; left: 50%; display: grid; width: max-content; grid-template-columns: repeat(3, 500px); align-items: start; gap: 16px; margin: 24px 0 0; padding: 16px clamp(10px, 3%, 32px); transform: translateX(-50%); background: #fce4d6; }
+.da-reference-board { display: grid; width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px; margin: 24px 0 0; padding: 16px clamp(10px, 3%, 32px); background: #fce4d6; }
 .da-reference-empty { grid-column: 1 / -1; margin: 0; padding: 24px; color: var(--muted); font-size: 15px; text-align: center; }
-.da-reference-card { position: relative; width: 500px; min-width: 0; overflow: hidden; border: 1px solid #000; color: #000; }
+.da-reference-card { position: relative; width: 100%; min-width: 0; overflow: hidden; border: 1px solid #000; color: #000; }
 .da-reference-card:has(.da-reference-note) { overflow: visible; }
 .da-reference-card--cyan { background: #00aeef; }
 .da-reference-card--gold { background: #ffc000; }
@@ -342,7 +342,10 @@
 .da-reference-card--peach { background: #ffcc80; }
 .da-reference-heading { display: flex; height: 42px; align-items: center; justify-content: center; border-bottom: 1px solid #000; }
 .da-reference-heading h3 { margin: 0; color: #000; font-size: 28px; font-weight: 750; line-height: 1; text-decoration-line: underline; text-decoration-style: double; text-underline-offset: 2px; }
+.da-reference-table-wrap { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+.da-reference-table-wrap:focus-visible { outline: 2px solid var(--green); outline-offset: -2px; }
 .da-reference-table { width: 100%; table-layout: fixed; border-collapse: collapse; color: #000; text-align: center; }
+.da-reference-table-wrap .da-reference-table { min-width: 460px; }
 .hsj-device-column { width: 18%; }
 .hsj-die-column { width: 11%; }
 .hsj-rubber-column { width: 40%; }
@@ -355,3 +358,12 @@
 .da-reference-device { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; }
 .da-reference-note { display: flex; width: 100%; min-height: 24px; align-items: center; justify-content: center; gap: 4px; padding: 2px 3px; color: #ffff00; background: #f00; font-size: 12px; font-weight: 400; line-height: 1.1; text-align: center; text-decoration: none; white-space: normal; }
 .da-reference-note span { font-size: 13px; font-weight: 700; line-height: 1; }
+@media (max-width: 1050px) {
+  .da-reference-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .da-reference-board { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 18px; padding: 12px 0; }
+  .da-reference-heading { height: 38px; }
+  .da-reference-heading h3 { font-size: 24px; }
+  .da-reference-table-wrap .da-reference-table { min-width: 440px; }
+}
